@@ -1,5 +1,8 @@
 name: flutter_extended_nmea
 description: An extensible NMEA0183 parser.
+homepage: https://github.com/ricardoboss/flutter_extended_nmea
+repository: https://github.com/ricardoboss/flutter_extended_nmea
+issue_tracker: https://github.com/ricardoboss/flutter_extended_nmea/issues
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
