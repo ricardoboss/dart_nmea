@@ -29,6 +29,14 @@ void main() {
     expect(decoded.source, equals("EC"));
     expect(decoded.mnemonic, equals("RMC"));
   });
+
+  test("converts invalid sentences to null", () {
+    final decoder = NmeaDecoder();
+
+    expect(decoder.decode("NOT NMEA"), isNull);
+    expect(decoder.decode(""), isNull);
+    expect(decoder.decode("\$P"), isNull);
+  });
 }
 
 class TestTalkerSentence extends TalkerSentence {

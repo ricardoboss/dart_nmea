@@ -142,11 +142,12 @@ class NmeaDecoder extends StreamTransformerBase<String, NmeaSentence> {
   /// [onUnknownTalkerSentence] is used.
   /// If no fallback is registered, [null] is returned.
   TalkerSentence? decodeTalker(String line) {
-    if (line.length < 6) {
+    final separatorIndex = line.indexOf(nmeaFieldSeparator);
+    if (separatorIndex < 0 || line.length < 6) {
       return null;
     }
 
-    final rawMnemonic = line.substring(3, line.indexOf(nmeaFieldSeparator));
+    final rawMnemonic = line.substring(3, separatorIndex);
     for (final generatorMnemonic in _talkerGenerators.keys) {
       if (generatorMnemonic == rawMnemonic) {
         return _talkerGenerators[generatorMnemonic]!(line);
