@@ -27,5 +27,6 @@ class QuerySentence extends NmeaSentence {
   bool get valid => _valid ??=
       super.valid && idField.length == 5 && idField[4] == nmeaQueryDenominator;
 
-  QuerySentence({required super.raw, super.prefix}) : super(type: NmeaSentenceType.query);
+  QuerySentence({required super.raw, super.prefix})
+      : super(type: NmeaSentenceType.query);
 }

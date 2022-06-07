@@ -8,11 +8,11 @@ void main() {
     "\$PACME{'test':true}",
     "\$--NOT,REGISTERED,SENTENCE,TEST*1C",
   ])
-      .transform(
-        nmea.NmeaDecoder(onlyAllowValid: true)
-            ..registerTalkerSentence(MsgSentence.id, (line) => MsgSentence(raw: line))
-            ..registerProprietarySentence(AcmeProprietarySentence.id, (line) => AcmeProprietarySentence(raw: line))
-      )
+      .transform(nmea.NmeaDecoder(onlyAllowValid: true)
+        ..registerTalkerSentence(
+            MsgSentence.id, (line) => MsgSentence(raw: line))
+        ..registerProprietarySentence(AcmeProprietarySentence.id,
+            (line) => AcmeProprietarySentence(raw: line)))
       .listen((nmea.NmeaSentence sentence) {
     print("${sentence.raw} is a valid ${sentence.type.name} sentence");
   });

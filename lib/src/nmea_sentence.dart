@@ -63,8 +63,8 @@ class NmeaSentence {
   /// Returns the raw string source without [prefix] ("$" or "$P" + manufacturer
   /// id for proprietary sentences).
   @protected
-  String get rawWithoutFixtures => _rawWithoutFixtures ??=
-      raw.substring(prefix.length, raw.length);
+  String get rawWithoutFixtures =>
+      _rawWithoutFixtures ??= raw.substring(prefix.length, raw.length);
 
   // MAYBE: add invalid reason field/getter
 

@@ -4,7 +4,8 @@ import 'package:test/test.dart';
 void main() {
   test("decodes talker sentences", () {
     final decoder = NmeaDecoder()
-      ..registerTalkerSentence(TestTalkerSentence.id, (line) => TestTalkerSentence(raw: line));
+      ..registerTalkerSentence(
+          TestTalkerSentence.id, (line) => TestTalkerSentence(raw: line));
     final decoded = decoder.decodeTalker("\$--TES,123,345*56");
 
     expect(decoded, isNotNull);
