@@ -1,5 +1,5 @@
 name: flutter_extended_nmea
-description: An extensible NMEA0183 parser.
+description: An extensible NMEA0183 parser, which also supports validating the checksum. Useful for reading data from GPS devices and other sensors.
 homepage: https://github.com/ricardoboss/flutter_extended_nmea
 repository: https://github.com/ricardoboss/flutter_extended_nmea
 issue_tracker: https://github.com/ricardoboss/flutter_extended_nmea/issues
