@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 1.0.2
+Version 1.1.0
 -------------
 
 * Removed unnecessary dependency on cupertino_icons
