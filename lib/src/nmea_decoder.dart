@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter_extended_nmea/src/multipart_sentence.dart';
 import 'package:flutter_extended_nmea/src/nmea_sentence.dart';
 import 'package:flutter_extended_nmea/src/proprietary_sentence.dart';
 import 'package:flutter_extended_nmea/src/query_sentence.dart';
@@ -35,6 +36,7 @@ typedef OptionalNmeaSentenceFactory = NmeaSentence? Function(String line);
 class NmeaDecoder extends StreamTransformerBase<String, NmeaSentence> {
   final Map<String, ProprietarySentenceFactory> _proprietaryGenerators = {};
   final Map<String, TalkerSentenceFactory> _talkerGenerators = {};
+  final List<MultipartSentence<dynamic>> _incompleteSentences = [];
 
   /// This method is invoked whenever a sentence is being decoded and it is
   /// already established that the sentence is a proprietary sentence, but no
@@ -92,7 +94,37 @@ class NmeaDecoder extends StreamTransformerBase<String, NmeaSentence> {
         continue;
       }
 
+      if (sentence is MultipartSentence) {
+        final MultipartSentence<dynamic> part = sentence; // capture variable
+        final existingIndex =
+            _incompleteSentences.indexWhere((s) => s.mnemonic == part.mnemonic);
+        if (existingIndex < 0) {
+          if (part.isLast) {
+            // shortcut if the multipart sentence only consists of one part
+            yield part;
+          } else {
+            // MAYBE: check if part is not the first one and call a callback (onIncompleteMultipart)?
+
+            // new multipart sentence
+            _incompleteSentences.add(part);
+          }
+        } else {
+          final existing = _incompleteSentences[existingIndex];
+          existing.appendFrom(part);
+          if (part.isLast) {
+            yield existing;
+            _incompleteSentences.removeAt(existingIndex);
+          }
+        }
+
+        continue;
+      }
+
       yield sentence;
+    }
+
+    for (var incomplete in _incompleteSentences) {
+      yield incomplete;
     }
   }
 

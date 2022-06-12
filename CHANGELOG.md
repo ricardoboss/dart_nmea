@@ -5,6 +5,7 @@ Version 1.0.2
 -------------
 
 * Removed unnecessary dependency on cupertino_icons
+* Added support for multipart NMEA sentences (like GSV)
 
 Version 1.0.1
 -------------

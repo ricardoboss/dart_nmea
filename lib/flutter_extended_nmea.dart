@@ -13,6 +13,7 @@ export 'src/nmea_sentence.dart'
 export 'src/proprietary_sentence.dart'
     show ProprietarySentence, nmeaProprietaryDenominator, nmeaProprietaryPrefix;
 export 'src/talker_sentence.dart' show TalkerSentence;
+export 'src/multipart_sentence.dart' show MultipartSentence;
 export 'src/query_sentence.dart' show QuerySentence, nmeaQueryDenominator;
 export 'src/checksum_sentence.dart'
     show ChecksumSentence, nmeaChecksumSeparator;
