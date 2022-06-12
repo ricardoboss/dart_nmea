@@ -10,6 +10,9 @@ class TalkerSentence extends ChecksumSentence {
   /// field, excluding all characters from the source.
   String get mnemonic => fields.isNotEmpty ? fields[0].substring(2) : "";
 
+  /// The [TalkerSentence] constructor has the same arguments as
+  /// [ChecksumSentence], except that it specifies the type of this
+  /// [NmeaSentence] as [NmeaSentenceType.talker].
   TalkerSentence({required super.raw, super.prefix})
       : super(type: NmeaSentenceType.talker);
 }
