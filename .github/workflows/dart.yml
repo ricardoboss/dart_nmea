@@ -17,6 +17,13 @@ jobs:
       - name: Verify formatting
         run: dart format --output=none --set-exit-if-changed .
 
+      - uses: actions/cache@v1
+        with:
+          path: ${{ env.PUB_CACHE }}
+          key: ${{ runner.os }}-dart-cache-${{ env.flutter_version }}
+          restore-keys: |
+            ${{ runner.OS }}-dart-cache-
+
       - name: Install dependencies
         run: dart pub get
 
@@ -36,6 +43,13 @@ jobs:
       - uses: dart-lang/setup-dart@v1.3
         with:
           sdk: ${{ matrix.sdk }}
+
+      - uses: actions/cache@v1
+        with:
+          path: ${{ env.PUB_CACHE }}
+          key: ${{ runner.os }}-dart-cache-${{ env.flutter_version }}
+          restore-keys: |
+            ${{ runner.OS }}-dart-cache-
 
       - name: Install dependencies
         run: dart pub get
