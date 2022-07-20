@@ -1,6 +1,11 @@
 Changelog
 =========
 
+Version 2.0.0
+-------------
+
+* Renamed project from `flutter_extended_nmea` to `nmea`
+
 Version 1.3.0
 -------------
 
