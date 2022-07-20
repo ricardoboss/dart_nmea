@@ -21,11 +21,18 @@ jobs:
         run: dart analyze --fatal-infos
 
   test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        sdk: [stable, beta, dev]
 
     steps:
       - uses: actions/checkout@v3
       - uses: dart-lang/setup-dart@v1.3
+        with:
+          sdk: ${{ matrix.sdk }}
 
       - name: Install dependencies
         run: dart pub get
