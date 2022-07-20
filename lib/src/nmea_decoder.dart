@@ -21,7 +21,7 @@ typedef OptionalProprietarySentenceFactory = ProprietarySentence? Function(
 
 /// A fallback function to create a [TalkerSentence] from a raw string. May
 /// return [null] if no conversion is available.
-typedef OptionalTalkerSentenceFactory = TalkerSentence Function(String line);
+typedef OptionalTalkerSentenceFactory = TalkerSentence? Function(String line);
 
 /// A fallback function to create a [NmeaSentence] from a raw string. May
 /// return [null] if no conversion is available.

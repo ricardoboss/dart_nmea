@@ -1,6 +1,11 @@
 Changelog
 =========
 
+Version 1.2.1
+-------------
+
+* Allow `null` to be returned from `OptionalTalkerSentenceFactory`
+
 Version 1.2.0
 -------------
 
