@@ -1,6 +1,11 @@
 Changelog
 =========
 
+Version 1.3.0
+-------------
+
+* Removed dependency on `flutter` and `flutter-lints`
+
 Version 1.2.1
 -------------
 
