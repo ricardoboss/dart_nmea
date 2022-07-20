@@ -4,7 +4,9 @@ Changelog
 Version 1.3.0
 -------------
 
-* Removed dependency on `flutter` and `flutter-lints`
+* Removed dependency on `flutter` and `flutter_lints`
+* Added some flutter linter rules
+* Added GitHub actions workflow for automated testing
 
 Version 1.2.1
 -------------
