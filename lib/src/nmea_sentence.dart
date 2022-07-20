@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter_extended_nmea/src/proprietary_sentence.dart';
 import 'package:flutter_extended_nmea/src/nmea_sentence_type.dart';
 
@@ -55,14 +54,12 @@ class NmeaSentence {
   ///
   /// It is not guaranteed that this will also validate the checksum as this
   /// depends on the sentence type being implemented.
-  @mustCallSuper
   bool get valid => _valid ??= raw.startsWith(prefix);
 
   String? _rawWithoutFixtures;
 
   /// Returns the raw string source without [prefix] ("$" or "$P" + manufacturer
   /// id for proprietary sentences).
-  @protected
   String get rawWithoutFixtures =>
       _rawWithoutFixtures ??= raw.substring(prefix.length, raw.length);
 

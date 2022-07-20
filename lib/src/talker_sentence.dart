@@ -12,7 +12,7 @@ class TalkerSentence extends ChecksumSentence {
 
   /// The [TalkerSentence] constructor has the same arguments as
   /// [ChecksumSentence], except that it specifies the type of this
-  /// [NmeaSentence] as [NmeaSentenceType.talker].
+  /// `NmeaSentence` as [NmeaSentenceType.talker].
   TalkerSentence({required super.raw, super.prefix})
       : super(type: NmeaSentenceType.talker);
 }

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-/// A utility class for [flutter_extended_nmea].
+/// A utility class for flutter_extended_nmea.
 class NmeaUtils {
   /// Calculates the XOR checksum for the given input. The result consists of two
   /// hexadecimal, uppercase characters (00 - FF). The default encoding is US

@@ -15,16 +15,16 @@ typedef ProprietarySentenceFactory = ProprietarySentence Function(String line);
 typedef TalkerSentenceFactory = TalkerSentence Function(String line);
 
 /// A fallback function to create a [ProprietarySentence] from a raw string.
-/// May return [null] if no conversion is available.
+/// May return `null` if no conversion is available.
 typedef OptionalProprietarySentenceFactory = ProprietarySentence? Function(
     String line);
 
 /// A fallback function to create a [TalkerSentence] from a raw string. May
-/// return [null] if no conversion is available.
+/// return `null` if no conversion is available.
 typedef OptionalTalkerSentenceFactory = TalkerSentence? Function(String line);
 
 /// A fallback function to create a [NmeaSentence] from a raw string. May
-/// return [null] if no conversion is available.
+/// return `null` if no conversion is available.
 typedef OptionalNmeaSentenceFactory = NmeaSentence? Function(String line);
 
 /// A [StreamTransformer] that splits [String] lines into NMEA0183 sentence
@@ -128,12 +128,12 @@ class NmeaDecoder extends StreamTransformerBase<String, NmeaSentence> {
     }
   }
 
-  /// Decodes a raw string into a [NmeaSentence] or [null] if the given string
+  /// Decodes a raw string into a [NmeaSentence] or `null` if the given string
   /// cannot be decoded. This will also invoke the registered fallback handlers
   /// ([onUnknownProprietarySentence], [onUnknownTalkerSentence], but not
   /// [onUnknownSentence], since it is only used for streaming).
   /// You can handle unknown sentences by checking if the result of this method
-  /// is [null] and then invoking the appropriate handler.
+  /// is `null` and then invoking the appropriate handler.
   NmeaSentence? decode(String line) {
     if (line.length > 1 && line[1] == nmeaProprietaryDenominator) {
       return decodeProprietary(line);
@@ -151,7 +151,7 @@ class NmeaDecoder extends StreamTransformerBase<String, NmeaSentence> {
   /// [ProprietarySentenceFactory] is used to create the sentence.
   /// If no factory is registered for the manufacturer id, the fallback
   /// [onUnknownProprietarySentence] is used.
-  /// If no fallback is registered, [null] is returned.
+  /// If no fallback is registered, `null` is returned.
   ProprietarySentence? decodeProprietary(String line) {
     for (final manufacturer in _proprietaryGenerators.keys) {
       if (line.startsWith(nmeaProprietaryPrefix + manufacturer)) {
@@ -172,7 +172,7 @@ class NmeaDecoder extends StreamTransformerBase<String, NmeaSentence> {
   /// [TalkerSentenceFactory] is used to create the sentence.
   /// If no factory is registered for the mnemonic, the fallback
   /// [onUnknownTalkerSentence] is used.
-  /// If no fallback is registered, [null] is returned.
+  /// If no fallback is registered, `null` is returned.
   TalkerSentence? decodeTalker(String line) {
     final separatorIndex = line.indexOf(nmeaFieldSeparator);
     if (separatorIndex < 0 || line.length < 6) {
