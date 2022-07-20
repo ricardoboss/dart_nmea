@@ -1,5 +1,5 @@
-import 'package:flutter_extended_nmea/src/proprietary_sentence.dart';
-import 'package:flutter_extended_nmea/src/nmea_sentence_type.dart';
+import 'package:nmea/src/proprietary_sentence.dart';
+import 'package:nmea/src/nmea_sentence_type.dart';
 
 /// Each NMEA0183 sentence starts with a "$" character.
 const nmeaPrefix = '\$';

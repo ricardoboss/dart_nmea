@@ -1,4 +1,4 @@
-import 'package:flutter_extended_nmea/flutter_extended_nmea.dart';
+import 'package:nmea/nmea.dart';
 
 /// The type of NMEA0183 sentence.
 ///

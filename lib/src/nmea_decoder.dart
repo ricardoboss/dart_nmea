@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter_extended_nmea/src/multipart_sentence.dart';
-import 'package:flutter_extended_nmea/src/nmea_sentence.dart';
-import 'package:flutter_extended_nmea/src/proprietary_sentence.dart';
-import 'package:flutter_extended_nmea/src/query_sentence.dart';
-import 'package:flutter_extended_nmea/src/talker_sentence.dart';
+import 'package:nmea/src/multipart_sentence.dart';
+import 'package:nmea/src/nmea_sentence.dart';
+import 'package:nmea/src/proprietary_sentence.dart';
+import 'package:nmea/src/query_sentence.dart';
+import 'package:nmea/src/talker_sentence.dart';
 
 /// A function to create a [ProprietarySentence] from a raw string and a
 /// manufacturer id.

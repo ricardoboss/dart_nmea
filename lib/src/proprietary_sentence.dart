@@ -1,5 +1,5 @@
-import 'package:flutter_extended_nmea/src/nmea_sentence.dart';
-import 'package:flutter_extended_nmea/src/nmea_sentence_type.dart';
+import 'package:nmea/src/nmea_sentence.dart';
+import 'package:nmea/src/nmea_sentence_type.dart';
 
 /// This character, at the correct position (after '$'), classifies an NMEA0183
 /// sentence as proprietary.

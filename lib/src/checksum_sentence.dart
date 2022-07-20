@@ -1,4 +1,4 @@
-import 'package:flutter_extended_nmea/flutter_extended_nmea.dart';
+import 'package:nmea/nmea.dart';
 
 /// The NMEA sentence checksum is between this character the new line
 /// characters. The general format looks like this:

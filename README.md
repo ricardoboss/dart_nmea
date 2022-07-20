@@ -1,4 +1,4 @@
-# flutter_extended_nmea
+# nmea
 
 An extensible NMEA0183 parser.
 

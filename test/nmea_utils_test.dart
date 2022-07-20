@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:flutter_extended_nmea/flutter_extended_nmea.dart';
+import 'package:nmea/nmea.dart';
 
 void main() {
   test('xorChecksum calculates the correct checksum', () {

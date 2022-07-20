@@ -2,7 +2,7 @@
 
 import 'dart:convert';
 
-import 'package:flutter_extended_nmea/flutter_extended_nmea.dart' as nmea;
+import 'package:nmea/nmea.dart' as nmea;
 
 void main() {
   Stream.fromIterable([

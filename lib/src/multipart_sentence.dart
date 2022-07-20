@@ -1,4 +1,4 @@
-import 'package:flutter_extended_nmea/flutter_extended_nmea.dart';
+import 'package:nmea/nmea.dart';
 
 /// A multipart sentence allows the decoder to recognize sentences split up into
 /// multiple lines and buffer them until all of them have been received.

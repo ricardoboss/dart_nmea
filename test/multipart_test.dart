@@ -1,4 +1,4 @@
-import 'package:flutter_extended_nmea/flutter_extended_nmea.dart';
+import 'package:nmea/nmea.dart';
 import 'package:test/test.dart';
 
 void main() {

@@ -1,5 +1,5 @@
-import 'package:flutter_extended_nmea/src/checksum_sentence.dart';
-import 'package:flutter_extended_nmea/src/nmea_sentence_type.dart';
+import 'package:nmea/src/checksum_sentence.dart';
+import 'package:nmea/src/nmea_sentence_type.dart';
 
 class TalkerSentence extends ChecksumSentence {
   /// By default, returns the first two characters in the first field as per

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/flutter_extended_nmea.iml" filepath="$PROJECT_DIR$/flutter_extended_nmea.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nmea.iml" filepath="$PROJECT_DIR$/nmea.iml" />
     </modules>
   </component>
 </project>

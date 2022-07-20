@@ -1,4 +1,4 @@
-import 'package:flutter_extended_nmea/flutter_extended_nmea.dart';
+import 'package:nmea/nmea.dart';
 
 /// This character, at the correct position (index 5), classifies an NMEA0183
 /// sentence as a query.

@@ -1,4 +1,4 @@
-/// Flutter Extended NMEA
+/// NMEA
 /// ====================
 ///
 /// Ported from [ricardoboss/extended-nmea](https://github.com/ricardoboss/extended-nmea).
@@ -6,7 +6,7 @@
 /// This library enables you to decode NMEA0183 sentences from a stream of
 /// strings. You can also register proprietary sentences and custom talker
 /// sentences.
-library flutter_extended_nmea;
+library nmea;
 
 export 'src/nmea_sentence.dart'
     show NmeaSentence, nmeaPrefix, nmeaSuffix, nmeaFieldSeparator;
