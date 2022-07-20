@@ -1,3 +1,6 @@
+The MIT License
+===============
+
 Copyright 2022 Ricardo Boss
 
 Permission is hereby granted, free of charge, to any person obtaining
