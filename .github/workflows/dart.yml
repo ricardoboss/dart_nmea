@@ -17,10 +17,10 @@ jobs:
       - name: Verify formatting
         run: dart format --output=none --set-exit-if-changed .
 
-      - uses: actions/cache@v1
+      - uses: actions/cache@v3
         with:
           path: ${{ env.PUB_CACHE }}
-          key: ${{ runner.os }}-dart-cache-${{ env.flutter_version }}
+          key: ${{ runner.os }}-dart-cache-stable
           restore-keys: |
             ${{ runner.OS }}-dart-cache-
 
@@ -44,10 +44,10 @@ jobs:
         with:
           sdk: ${{ matrix.sdk }}
 
-      - uses: actions/cache@v1
+      - uses: actions/cache@v3
         with:
           path: ${{ env.PUB_CACHE }}
-          key: ${{ runner.os }}-dart-cache-${{ env.flutter_version }}
+          key: ${{ runner.os }}-dart-cache-${{ matrix.sdk }}
           restore-keys: |
             ${{ runner.OS }}-dart-cache-
 
