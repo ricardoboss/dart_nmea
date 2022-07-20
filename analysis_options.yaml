@@ -16,7 +16,6 @@ linter:
     - cancel_subscriptions
     - close_sinks
     - comment_references
-    - discarded_futures
     - test_types_in_equals
     - throw_in_finally
     - unnecessary_statements
