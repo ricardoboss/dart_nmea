@@ -35,7 +35,7 @@ import 'package:flutter_extended_nmea/flutter_extended_nmea.dart';
 ///   }
 /// }
 /// ```
-abstract class MultipartSentence<T> extends TalkerSentence {
+abstract class MultipartSentence<T extends MultipartSentence<T>> extends TalkerSentence {
   /// The [MultipartSentence] constructor has the same signature as
   /// [TalkerSentence].
   MultipartSentence({required super.raw, super.prefix});

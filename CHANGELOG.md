@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Version 1.2.0
+-------------
+
+* Added more constraints on the generic parameter of `MultipartSentence` to only allow the same type
+  extending as a parameter
+
 Version 1.1.0
 -------------
 
