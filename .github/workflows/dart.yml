@@ -7,7 +7,20 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  analyze:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dart-lang/setup-dart@v1.3
+
+      - name: Verify formatting
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Analyze project source
+        run: dart analyze --fatal-infos
+
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,12 +29,6 @@ jobs:
 
       - name: Install dependencies
         run: dart pub get
-
-      - name: Verify formatting
-        run: dart format --output=none --set-exit-if-changed .
-
-      - name: Analyze project source
-        run: dart analyze --fatal-infos
 
       - name: Run tests
         run: dart test
