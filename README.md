@@ -1,5 +1,7 @@
 # nmea
 
+[![Pipeline](https://github.com/ricardoboss/dart_nmea/actions/workflows/pipeline.yml/badge.svg)](https://github.com/ricardoboss/dart_nmea/actions/workflows/pipeline.yml)
+
 An extensible NMEA0183 parser.
 
 Take a look at the [example](example/example.dart) to see how to use it.
