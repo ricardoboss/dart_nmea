@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_print
 
+import 'dart:convert';
+
 import 'package:flutter_extended_nmea/flutter_extended_nmea.dart' as nmea;
 
 void main() {
@@ -28,9 +30,9 @@ class MsgSentence extends nmea.TalkerSentence {
   MsgSentence({required super.raw});
 
   // You can access the fields in this talker sentence by their index
-  String get status => fields[1];
+  String get field1 => fields[1];
 
-  int get count => int.parse(fields[2]);
+  int get field2 => int.parse(fields[2]);
 
   // etc...
 }
@@ -47,4 +49,6 @@ class AcmeProprietarySentence extends nmea.ProprietarySentence {
   // remember to call [super.valid]!
   @override
   bool get valid => super.valid && json.isNotEmpty;
+
+  dynamic get data => jsonDecode(json);
 }
