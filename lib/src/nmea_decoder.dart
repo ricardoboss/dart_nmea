@@ -205,7 +205,7 @@ class NmeaDecoder extends StreamTransformerBase<String, NmeaSentence> {
   /// If no fallback is registered, `null` is returned.
   TalkerSentence? decodeTalker(String line) {
     final separatorIndex = line.indexOf(nmeaFieldSeparator);
-    if (separatorIndex < 0 || line.length < 6) {
+    if (separatorIndex < 3 || line.length < 6) {
       return null;
     }
 
