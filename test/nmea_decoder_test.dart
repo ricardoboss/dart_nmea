@@ -54,8 +54,8 @@ void main() {
 
   test("decodes custom sentences with skipped checksums", () {
     final decoder = NmeaDecoder()
-      ..registerCustomSentence(
-          TestCustomSentence.id, (line) => TestCustomSentence(raw: line, validateChecksums: false));
+      ..registerCustomSentence(TestCustomSentence.id,
+          (line) => TestCustomSentence(raw: line, validateChecksums: false));
     final decoded = decoder.decodeCustom("\$CST,123,345*56");
 
     expect(decoded, isNotNull);
@@ -96,5 +96,6 @@ class TestTalkerSentence extends TalkerSentence {
 
 class TestCustomSentence extends CustomSentence {
   static const String id = "CST";
-  TestCustomSentence({required super.raw, super.validateChecksums = true}) : super(identifier: id);
+  TestCustomSentence({required super.raw, super.validateChecksums = true})
+      : super(identifier: id);
 }

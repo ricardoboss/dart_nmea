@@ -10,12 +10,14 @@ class CustomSentence extends ChecksumSentence {
   final String identifier;
   final bool validateChecksums;
 
-  CustomSentence({required this.identifier, required super.raw, this.validateChecksums = true})
+  CustomSentence(
+      {required this.identifier,
+      required super.raw,
+      this.validateChecksums = true})
       : super(
           type: NmeaSentenceType.unknown,
           prefix: nmeaPrefix,
         );
-
 
   @override
   bool get valid => super.valid || !validateChecksums;
