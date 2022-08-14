@@ -8,10 +8,15 @@ import 'package:nmea/src/nmea_sentence_type.dart';
 class CustomSentence extends ChecksumSentence {
   /// Returns the identifier used to identify this sentence type
   final String identifier;
+  final bool validateChecksums;
 
-  CustomSentence({required this.identifier, required super.raw})
+  CustomSentence({required this.identifier, required super.raw, this.validateChecksums = true})
       : super(
           type: NmeaSentenceType.unknown,
           prefix: nmeaPrefix,
         );
+
+
+  @override
+  bool get valid => super.valid || !validateChecksums;
 }
