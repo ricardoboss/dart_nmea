@@ -1,11 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:nmea/src/custom_sentence.dart';
 import 'package:nmea/src/multipart_sentence.dart';
 import 'package:nmea/src/nmea_sentence.dart';
 import 'package:nmea/src/proprietary_sentence.dart';
 import 'package:nmea/src/query_sentence.dart';
 import 'package:nmea/src/talker_sentence.dart';
+
+/// A function to create a [CustomSentence] from a raw string and an
+/// identifier.
+typedef CustomSentenceFactory = CustomSentence Function(String line);
 
 /// A function to create a [ProprietarySentence] from a raw string and a
 /// manufacturer id.
@@ -34,6 +39,7 @@ typedef OptionalNmeaSentenceFactory = NmeaSentence? Function(String line);
 /// this transformer doesn't buffer the input and tries to parse every piece of
 /// data it receives as a complete NMEA sentence.
 class NmeaDecoder extends StreamTransformerBase<String, NmeaSentence> {
+  final Map<String, CustomSentenceFactory> _customGenerators = {};
   final Map<String, ProprietarySentenceFactory> _proprietaryGenerators = {};
   final Map<String, TalkerSentenceFactory> _talkerGenerators = {};
   final List<MultipartSentence<dynamic>> _incompleteSentences = [];
@@ -67,6 +73,14 @@ class NmeaDecoder extends StreamTransformerBase<String, NmeaSentence> {
     this.onUnknownSentence,
     this.onlyAllowValid = false,
   });
+
+  /// Registers a [CustomSentenceFactory] for a given identifier.
+  void registerCustomSentence(
+    String identifier,
+    CustomSentenceFactory factory,
+  ) {
+    _customGenerators[identifier] = factory;
+  }
 
   /// Registers a [ProprietarySentenceFactory] for a given manufacturer id.
   void registerProprietarySentence(
@@ -143,7 +157,21 @@ class NmeaDecoder extends StreamTransformerBase<String, NmeaSentence> {
       return decodeQuery(line);
     }
 
-    return decodeTalker(line);
+    return decodeTalker(line) ?? decodeCustom(line);
+  }
+
+  /// Tries to decode the given line as a custom sentence.
+  /// The identifier is extracted from the line and the corresponding
+  /// [CustomSentenceFactory] is used to create the sentence.
+  /// If none is found `null` is returned.
+  CustomSentence? decodeCustom(String line) {
+    for (final identifier in _customGenerators.keys) {
+      if (line.startsWith(nmeaPrefix + identifier)) {
+        return _customGenerators[identifier]!(line);
+      }
+    }
+
+    return null;
   }
 
   /// Tries to decode the given line as a proprietary sentence.
@@ -175,7 +203,7 @@ class NmeaDecoder extends StreamTransformerBase<String, NmeaSentence> {
   /// If no fallback is registered, `null` is returned.
   TalkerSentence? decodeTalker(String line) {
     final separatorIndex = line.indexOf(nmeaFieldSeparator);
-    if (separatorIndex < 0 || line.length < 6) {
+    if (separatorIndex < 3 || line.length < 6) {
       return null;
     }
 
