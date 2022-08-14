@@ -11,7 +11,7 @@ class CustomSentence extends ChecksumSentence {
 
   CustomSentence({required this.identifier, required super.raw})
       : super(
-    type: NmeaSentenceType.unknown,
-    prefix: nmeaPrefix,
-  );
+          type: NmeaSentenceType.unknown,
+          prefix: nmeaPrefix,
+        );
 }

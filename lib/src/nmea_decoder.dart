@@ -8,7 +8,7 @@ import 'package:nmea/src/proprietary_sentence.dart';
 import 'package:nmea/src/query_sentence.dart';
 import 'package:nmea/src/talker_sentence.dart';
 
-/// A function to create a [CustomSentence] from a raw string and a
+/// A function to create a [CustomSentence] from a raw string and an
 /// identifier.
 typedef CustomSentenceFactory = CustomSentence Function(String line);
 
@@ -76,9 +76,9 @@ class NmeaDecoder extends StreamTransformerBase<String, NmeaSentence> {
 
   /// Registers a [CustomSentenceFactory] for a given identifier.
   void registerCustomSentence(
-      String identifier,
-      CustomSentenceFactory factory,
-      ) {
+    String identifier,
+    CustomSentenceFactory factory,
+  ) {
     _customGenerators[identifier] = factory;
   }
 
@@ -157,15 +157,13 @@ class NmeaDecoder extends StreamTransformerBase<String, NmeaSentence> {
       return decodeQuery(line);
     }
 
-    return decodeTalker(line)??decodeCustom(line);
+    return decodeTalker(line) ?? decodeCustom(line);
   }
 
-  /// Tries to decode the given line as a proprietary sentence.
-  /// The manufacturer id is extracted from the line and the corresponding
-  /// [ProprietarySentenceFactory] is used to create the sentence.
-  /// If no factory is registered for the manufacturer id, the fallback
-  /// [onUnknownProprietarySentence] is used.
-  /// If no fallback is registered, `null` is returned.
+  /// Tries to decode the given line as a custom sentence.
+  /// The identifier is extracted from the line and the corresponding
+  /// [CustomSentenceFactory] is used to create the sentence.
+  /// If none is found `null` is returned.
   CustomSentence? decodeCustom(String line) {
     for (final identifier in _customGenerators.keys) {
       if (line.startsWith(nmeaPrefix + identifier)) {
