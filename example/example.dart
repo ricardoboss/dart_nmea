@@ -9,12 +9,15 @@ void main() {
     "\$--MSG,A,1,0,0,0,0*29",
     "\$PACME{'test':true}",
     "\$--NOT,REGISTERED,SENTENCE,TEST*1C",
+    "\$CST,first,second",
   ])
       .transform(nmea.NmeaDecoder(onlyAllowValid: true)
         ..registerTalkerSentence(
             MsgSentence.id, (line) => MsgSentence(raw: line))
         ..registerProprietarySentence(AcmeProprietarySentence.id,
-            (line) => AcmeProprietarySentence(raw: line)))
+            (line) => AcmeProprietarySentence(raw: line))
+        ..registerCustomSentence(
+            MyCustomSentence.id, (line) => MyCustomSentence(raw: line, validateChecksums: false)))
       .listen((nmea.NmeaSentence sentence) {
     print("${sentence.raw} is a valid ${sentence.type.name} sentence");
   });
@@ -22,6 +25,7 @@ void main() {
   // Output:
   // $--MSG,A,1,0,0,0,0*29 is a valid talker sentence
   // $PACME{'test':true} is a valid proprietary sentence
+  // $CST,first,second is a valid unknown sentence
 }
 
 class MsgSentence extends nmea.TalkerSentence {
@@ -33,8 +37,6 @@ class MsgSentence extends nmea.TalkerSentence {
   String get field1 => fields[1];
 
   int get field2 => int.parse(fields[2]);
-
-  // etc...
 }
 
 class AcmeProprietarySentence extends nmea.ProprietarySentence {
@@ -51,4 +53,15 @@ class AcmeProprietarySentence extends nmea.ProprietarySentence {
   bool get valid => super.valid && json.isNotEmpty;
 
   dynamic get data => jsonDecode(json);
+}
+
+class MyCustomSentence extends nmea.CustomSentence {
+  static const String id = "CST";
+
+  MyCustomSentence({required super.raw, super.validateChecksums = true})
+      : super(identifier: id);
+
+  String get first => fields[0];
+
+  String get second => fields[1];
 }
