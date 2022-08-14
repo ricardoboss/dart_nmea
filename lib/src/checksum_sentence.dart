@@ -57,10 +57,7 @@ class ChecksumSentence extends NmeaSentence {
   /// calculate the checksum.
   @override
   String get rawWithoutFixtures =>
-      _rawWithoutFixtures ??= super.rawWithoutFixtures.substring(
-          0,
-          super.raw.length -
-              4); // -4 to remove the checksum + separator character
+      _rawWithoutFixtures ??= (hasChecksum ? super.rawWithoutFixtures.split(nmeaChecksumSeparator).first : super.rawWithoutFixtures); // -4 to remove the checksum + separator character
 
   /// The [ChecksumSentence] constructor has the same parameters as the parent
   /// [NmeaSentence] does.
