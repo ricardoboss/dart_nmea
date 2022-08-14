@@ -1,5 +1,4 @@
 import 'package:nmea/src/checksum_sentence.dart';
-import 'package:nmea/src/nmea_sentence.dart';
 import 'package:nmea/src/nmea_sentence_type.dart';
 
 /// The data format is completely customizable, as long as it fits in the general
@@ -13,11 +12,9 @@ class CustomSentence extends ChecksumSentence {
   CustomSentence(
       {required this.identifier,
       required super.raw,
+      super.prefix,
       this.validateChecksums = true})
-      : super(
-          type: NmeaSentenceType.unknown,
-          prefix: nmeaPrefix,
-        );
+      : super(type: NmeaSentenceType.unknown);
 
   @override
   bool get hasValidChecksum => super.hasValidChecksum || !validateChecksums;
