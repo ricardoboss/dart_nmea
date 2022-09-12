@@ -16,8 +16,8 @@ void main() {
             MsgSentence.id, (line) => MsgSentence(raw: line))
         ..registerProprietarySentence(AcmeProprietarySentence.id,
             (line) => AcmeProprietarySentence(raw: line))
-        ..registerCustomSentence(
-            MyCustomSentence.id, (line) => MyCustomSentence(raw: line, validateChecksums: false)))
+        ..registerCustomSentence(MyCustomSentence.id,
+            (line) => MyCustomSentence(raw: line, validateChecksums: false)))
       .listen((nmea.NmeaSentence sentence) {
     print("${sentence.raw} is a valid ${sentence.type.name} sentence");
   });

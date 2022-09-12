@@ -64,7 +64,8 @@ void main() {
     expect(decoded.valid, isTrue);
   });
 
-  test("decodes invalid custom sentences although checksum checks are skipped", () {
+  test("decodes invalid custom sentences although checksum checks are skipped",
+      () {
     final decoder = NmeaDecoder()
       ..registerCustomSentence(TestCustomSentence.id,
           (line) => TestCustomSentence(raw: line, validateChecksums: false));
