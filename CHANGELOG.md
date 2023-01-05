@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 3.0.0
+-------------
+
+* Breaking: `MultipartSentence` has a new parent class `NmeaSentence` and requires implementations
+  for some new abstract members.
+* Added `onIncompleteMultipartSentence` to `NmeaDecoder` for handling multipart sentence without
+  having received a first sentence part.
+
 Version 2.1.1
 -------------
 
