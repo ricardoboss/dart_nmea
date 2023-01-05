@@ -36,10 +36,10 @@ import 'package:nmea/nmea.dart';
 /// }
 /// ```
 abstract class MultipartSentence<T extends MultipartSentence<T>>
-    extends TalkerSentence {
+    extends NmeaSentence {
   /// The [MultipartSentence] constructor has the same signature as
-  /// [TalkerSentence].
-  MultipartSentence({required super.raw, super.prefix});
+  /// [NmeaSentence].
+  MultipartSentence({required super.type, required super.raw});
 
   /// The number of the current part of the sentence. Usually starts at 1 and
   /// ends at [total] (inclusive).
@@ -56,6 +56,10 @@ abstract class MultipartSentence<T extends MultipartSentence<T>>
   /// Whether this is the first part of a multipart sentence. The first message
   /// usually has number 1.
   bool get isFirst => sequence == 1;
+
+  /// This method is used by the decoder to check if two sentences belong to
+  /// the same multipart sentence.
+  bool belongsTo(MultipartSentence other);
 
   /// This method gets invoked on the first message received for a multipart
   /// sentence. It should update the values on the invoked instance using the

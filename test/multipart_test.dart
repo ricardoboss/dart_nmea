@@ -75,8 +75,8 @@ void main() {
   });
 }
 
-class MultipartTestTalkerSentence
-    extends MultipartSentence<MultipartTestTalkerSentence> {
+class MultipartTestTalkerSentence extends TalkerSentence
+    implements MultipartSentence<MultipartTestTalkerSentence> {
   static const String id = "TE1";
 
   late List<int> _values;
@@ -101,6 +101,17 @@ class MultipartTestTalkerSentence
   bool get complete => _isComplete;
 
   List<int> get values => _values;
+
+  @override
+  bool belongsTo(NmeaSentence other) {
+    return other is TalkerSentence && other.mnemonic == id;
+  }
+
+  @override
+  bool get isFirst => sequence == 1;
+
+  @override
+  bool get isLast => sequence == total;
 }
 
 class TestTalkerSentence extends TalkerSentence {

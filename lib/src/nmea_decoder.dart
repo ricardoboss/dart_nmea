@@ -33,6 +33,11 @@ typedef OptionalTalkerSentenceFactory = TalkerSentence? Function(String line);
 /// return `null` if no conversion is available.
 typedef OptionalNmeaSentenceFactory = NmeaSentence? Function(String line);
 
+/// A handler for multipart sequences that no 'first' part exists for.
+/// Can return a multipart sentence that then serves as the 'first' sentence.
+typedef OnIncompleteMultipartSentence = MultipartSentence? Function(
+    MultipartSentence<dynamic> sentence);
+
 /// A [StreamTransformer] that splits [String] lines into NMEA0183 sentence
 /// objects ([NmeaSentence]).
 ///
@@ -44,7 +49,7 @@ class NmeaDecoder extends StreamTransformerBase<String, NmeaSentence> {
   final Map<String, OptionalProprietarySentenceFactory> _proprietaryGenerators =
       {};
   final Map<String, TalkerSentenceFactory> _talkerGenerators = {};
-  final LimitedSizeQueue<MultipartSentence<dynamic>> _incompleteSentences =
+  final LimitedSizeQueue<MultipartSentence> _incompleteSentences =
       LimitedSizeQueue(capacity: 100, dropCount: 10);
 
   /// This method is invoked whenever a sentence is being decoded and it is
@@ -61,6 +66,10 @@ class NmeaDecoder extends StreamTransformerBase<String, NmeaSentence> {
   /// if no other handler was able to decode the string.
   final OptionalNmeaSentenceFactory? onUnknownSentence;
 
+  /// Get invoked for multipart sequences that no 'first' part exists for.
+  /// Can return a multipart sentence that then serves as the 'first' sentence.
+  final OnIncompleteMultipartSentence? onIncompleteMultipartSentence;
+
   /// Whether or not this decoder only streams valid NMEA0183 sentences.
   /// Invalid sentences are silently ignored.
   final bool onlyAllowValid;
@@ -74,6 +83,7 @@ class NmeaDecoder extends StreamTransformerBase<String, NmeaSentence> {
     this.onUnknownProprietarySentence,
     this.onUnknownTalkerSentence,
     this.onUnknownSentence,
+    this.onIncompleteMultipartSentence,
     this.onlyAllowValid = false,
   });
 
@@ -112,23 +122,27 @@ class NmeaDecoder extends StreamTransformerBase<String, NmeaSentence> {
       }
 
       if (sentence is MultipartSentence) {
-        final MultipartSentence<dynamic> part = sentence; // capture variable
         final existingIndex =
-            _incompleteSentences.indexWhere((s) => s.mnemonic == part.mnemonic);
+            _incompleteSentences.indexWhere(sentence.belongsTo);
         if (existingIndex < 0) {
-          if (part.isLast) {
+          if (sentence.isLast) {
             // shortcut if the multipart sentence only consists of one part
-            yield part;
-          } else {
-            // MAYBE: check if part is not the first one and call a callback (onIncompleteMultipart)?
-
+            yield sentence;
+          } else if (sentence.isFirst) {
             // new multipart sentence
-            _incompleteSentences.add(part);
+            _incompleteSentences.add(sentence);
+          } else {
+            // 'mid-sequence' multipart sentence (we didn't get the first one)
+            final fallback = onIncompleteMultipartSentence?.call(sentence);
+            if (fallback != null) {
+              fallback.appendFrom(sentence);
+              _incompleteSentences.add(fallback);
+            }
           }
         } else {
           final existing = _incompleteSentences[existingIndex];
-          existing.appendFrom(part);
-          if (part.isLast) {
+          existing.appendFrom(sentence);
+          if (sentence.isLast) {
             yield existing;
             _incompleteSentences.removeAt(existingIndex);
           }
