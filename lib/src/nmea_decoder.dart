@@ -41,7 +41,7 @@ typedef OptionalNmeaSentenceFactory = NmeaSentence? Function(String line);
 /// data it receives as a complete NMEA sentence.
 class NmeaDecoder extends StreamTransformerBase<String, NmeaSentence> {
   final Map<String, CustomSentenceFactory> _customGenerators = {};
-  final Map<String, ProprietarySentenceFactory> _proprietaryGenerators = {};
+  final Map<String, OptionalProprietarySentenceFactory> _proprietaryGenerators = {};
   final Map<String, TalkerSentenceFactory> _talkerGenerators = {};
   final LimitedSizeQueue<MultipartSentence<dynamic>> _incompleteSentences = LimitedSizeQueue(capacity: 100, dropCount: 10);
 
@@ -86,7 +86,7 @@ class NmeaDecoder extends StreamTransformerBase<String, NmeaSentence> {
   /// Registers a [ProprietarySentenceFactory] for a given manufacturer id.
   void registerProprietarySentence(
     String manufacturer,
-    ProprietarySentenceFactory factory,
+    OptionalProprietarySentenceFactory factory,
   ) {
     _proprietaryGenerators[manufacturer] = factory;
   }
