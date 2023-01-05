@@ -1,11 +1,15 @@
 Changelog
 =========
 
+Version 2.1.1
+-------------
+
+* Added `LimitedSizeQueue` to fix #4 (Limit size of `_incompleteSentences` in `NmeaDecoder`)
+
 Version 2.1.0
 -------------
 
 * Adds support for custom sentence types
-* Added `LimitedSizeQueue` to fix #4 (Limit size of `_incompleteSentences` in `NmeaDecoder`)
 
 Version 2.0.0
 -------------
