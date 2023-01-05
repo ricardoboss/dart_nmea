@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:nmea/src/custom_sentence.dart';
+import 'package:nmea/src/limited_size_queue.dart';
 import 'package:nmea/src/multipart_sentence.dart';
 import 'package:nmea/src/nmea_sentence.dart';
 import 'package:nmea/src/proprietary_sentence.dart';
@@ -42,7 +43,7 @@ class NmeaDecoder extends StreamTransformerBase<String, NmeaSentence> {
   final Map<String, CustomSentenceFactory> _customGenerators = {};
   final Map<String, ProprietarySentenceFactory> _proprietaryGenerators = {};
   final Map<String, TalkerSentenceFactory> _talkerGenerators = {};
-  final List<MultipartSentence<dynamic>> _incompleteSentences = [];
+  final LimitedSizeQueue<MultipartSentence<dynamic>> _incompleteSentences = LimitedSizeQueue(capacity: 100, dropCount: 10);
 
   /// This method is invoked whenever a sentence is being decoded and it is
   /// already established that the sentence is a proprietary sentence, but no
