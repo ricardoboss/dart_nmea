@@ -21,9 +21,9 @@ void main() {
 
   test("decodes custom sentences with invalid checksums", () {
     final decoder = NmeaDecoder()
-      ..registerCustomSentence(
+      ..registerCustomChecksumSentence(
           TestCustomSentence.id, (line) => TestCustomSentence(raw: line));
-    final decoded = decoder.decodeCustom("\$CST,123,345*56");
+    final decoded = decoder.decodeCustomChecksum("\$CST,123,345*56");
 
     expect(decoded, isNotNull);
     expect(decoded!.fields, equals(["CST", "123", "345"]));
@@ -36,9 +36,9 @@ void main() {
 
   test("decodes custom sentences with valid checksums", () {
     final decoder = NmeaDecoder()
-      ..registerCustomSentence(
+      ..registerCustomChecksumSentence(
           TestCustomSentence.id, (line) => TestCustomSentence(raw: line));
-    final decoded = decoder.decodeCustom("\$CST,123,345*46");
+    final decoded = decoder.decodeCustomChecksum("\$CST,123,345*46");
 
     expect(decoded, isNotNull);
     expect(decoded!.fields, equals(["CST", "123", "345"]));
@@ -51,9 +51,9 @@ void main() {
 
   test("decodes custom sentences with skipped checksums", () {
     final decoder = NmeaDecoder()
-      ..registerCustomSentence(TestCustomSentence.id,
+      ..registerCustomChecksumSentence(TestCustomSentence.id,
           (line) => TestCustomSentence(raw: line, validateChecksums: false));
-    final decoded = decoder.decodeCustom("\$CST,123,345*56");
+    final decoded = decoder.decodeCustomChecksum("\$CST,123,345*56");
 
     expect(decoded, isNotNull);
     expect(decoded!.fields, equals(["CST", "123", "345"]));
@@ -67,9 +67,9 @@ void main() {
   test("decodes invalid custom sentences although checksum checks are skipped",
       () {
     final decoder = NmeaDecoder()
-      ..registerCustomSentence(TestCustomSentence.id,
+      ..registerCustomChecksumSentence(TestCustomSentence.id,
           (line) => TestCustomSentence(raw: line, validateChecksums: false));
-    final decoded = decoder.decodeCustom("\$CST,123345*56");
+    final decoded = decoder.decodeCustomChecksum("\$CST,123345*56");
 
     expect(decoded, isNotNull);
     expect(decoded!.fields, equals(["CST", "123345"]));
@@ -106,7 +106,7 @@ class TestTalkerSentence extends TalkerSentence {
   TestTalkerSentence({required super.raw});
 }
 
-class TestCustomSentence extends CustomSentence {
+class TestCustomSentence extends CustomChecksumSentence {
   static const String id = "CST";
   TestCustomSentence({required super.raw, super.validateChecksums = true})
       : super(identifier: id);

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:nmea/src/custom_checksum_sentence.dart';
 import 'package:nmea/src/custom_sentence.dart';
 import 'package:nmea/src/limited_size_queue.dart';
 import 'package:nmea/src/multipart_sentence.dart';
@@ -12,6 +13,11 @@ import 'package:nmea/src/talker_sentence.dart';
 /// A function to create a [CustomSentence] from a raw string and an
 /// identifier.
 typedef CustomSentenceFactory = CustomSentence Function(String line);
+
+/// A function to create a [CustomChecksumSentence] from a raw string and an
+/// identifier.
+typedef CustomChecksumSentenceFactory = CustomChecksumSentence Function(
+    String line);
 
 /// A function to create a [ProprietarySentence] from a raw string and a
 /// manufacturer id.
@@ -46,6 +52,8 @@ typedef OnIncompleteMultipartSentence = MultipartSentence? Function(
 /// data it receives as a complete NMEA sentence.
 class NmeaDecoder extends StreamTransformerBase<String, NmeaSentence> {
   final Map<String, CustomSentenceFactory> _customGenerators = {};
+  final Map<String, CustomChecksumSentenceFactory> _customChecksumGenerators =
+      {};
   final Map<String, OptionalProprietarySentenceFactory> _proprietaryGenerators =
       {};
   final Map<String, TalkerSentenceFactory> _talkerGenerators = {};
@@ -93,6 +101,14 @@ class NmeaDecoder extends StreamTransformerBase<String, NmeaSentence> {
     CustomSentenceFactory factory,
   ) {
     _customGenerators[identifier] = factory;
+  }
+
+  /// Registers a [CustomChecksumSentenceFactory] for a given identifier.
+  void registerCustomChecksumSentence(
+    String identifier,
+    CustomChecksumSentenceFactory factory,
+  ) {
+    _customChecksumGenerators[identifier] = factory;
   }
 
   /// Registers a [ProprietarySentenceFactory] for a given manufacturer id.
@@ -174,7 +190,9 @@ class NmeaDecoder extends StreamTransformerBase<String, NmeaSentence> {
       return decodeQuery(line);
     }
 
-    return decodeTalker(line) ?? decodeCustom(line);
+    return decodeTalker(line) ??
+        decodeCustomChecksum(line) ??
+        decodeCustom(line);
   }
 
   /// Tries to decode the given line as a custom sentence.
@@ -185,6 +203,20 @@ class NmeaDecoder extends StreamTransformerBase<String, NmeaSentence> {
     for (final identifier in _customGenerators.keys) {
       if (line.startsWith(nmeaPrefix + identifier)) {
         return _customGenerators[identifier]!(line);
+      }
+    }
+
+    return null;
+  }
+
+  /// Tries to decode the given line as a custom sentence with a checksum.
+  /// The identifier is extracted from the line and the corresponding
+  /// [CustomChecksumSentenceFactory] is used to create the sentence.
+  /// If none is found `null` is returned.
+  CustomChecksumSentence? decodeCustomChecksum(String line) {
+    for (final identifier in _customChecksumGenerators.keys) {
+      if (line.startsWith(nmeaPrefix + identifier)) {
+        return _customChecksumGenerators[identifier]!(line);
       }
     }
 

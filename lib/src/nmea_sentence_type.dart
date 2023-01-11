@@ -19,4 +19,8 @@ enum NmeaSentenceType {
   /// This sentence is a proprietary sentence, whose format or function is not
   /// further specified (see [ProprietarySentence]).
   proprietary,
+
+  /// This sentence is a completely custom sentence which might contain
+  /// unexpected data (see [CustomSentence] and [CustomChecksumSentence]).
+  custom,
 }

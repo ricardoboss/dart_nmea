@@ -16,7 +16,7 @@ void main() {
             MsgSentence.id, (line) => MsgSentence(raw: line))
         ..registerProprietarySentence(AcmeProprietarySentence.id,
             (line) => AcmeProprietarySentence(raw: line))
-        ..registerCustomSentence(MyCustomSentence.id,
+        ..registerCustomChecksumSentence(MyCustomSentence.id,
             (line) => MyCustomSentence(raw: line, validateChecksums: false)))
       .listen((nmea.NmeaSentence sentence) {
     print("${sentence.raw} is a valid ${sentence.type.name} sentence");
@@ -25,7 +25,7 @@ void main() {
   // Output:
   // $--MSG,A,1,0,0,0,0*29 is a valid talker sentence
   // $PACME{'test':true} is a valid proprietary sentence
-  // $CST,first,second is a valid unknown sentence
+  // $CST,first,second is a valid custom sentence
 }
 
 class MsgSentence extends nmea.TalkerSentence {
@@ -55,7 +55,7 @@ class AcmeProprietarySentence extends nmea.ProprietarySentence {
   dynamic get data => jsonDecode(json);
 }
 
-class MyCustomSentence extends nmea.CustomSentence {
+class MyCustomSentence extends nmea.CustomChecksumSentence {
   static const String id = "CST";
 
   MyCustomSentence({required super.raw, super.validateChecksums = true})

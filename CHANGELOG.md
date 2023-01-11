@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Version 3.1.0
+-------------
+
+* Added `CustomChecksumSentence` and changed parent of `CustomSentence` to `NmeaSentence`.
+* Added `NmeaSentenceType.custom` for custom sentences.
+
 Version 3.0.0
 -------------
 
