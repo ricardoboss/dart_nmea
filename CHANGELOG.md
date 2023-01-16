@@ -1,6 +1,11 @@
 Changelog
 =========
 
+Version 3.2.0
+-------------
+
+* Moved `MultipartSentence` logic to `decode` method
+
 Version 3.1.0
 -------------
 

@@ -24,6 +24,29 @@ void main() {
     expect(multipart.complete, isTrue);
   });
 
+  test("decodes multipart messages in decode method", () async {
+    final decoder = NmeaDecoder()
+      ..registerTalkerSentence(MultipartTestTalkerSentence.id,
+          (line) => MultipartTestTalkerSentence(raw: line));
+
+    final decoded = [
+      "\$--TE1,1,3,123,456*78",
+      "\$--TE1,2,3,789,012*34",
+      "\$--TE1,3,3,345,678*56",
+    ]
+        .map((line) => decoder.decode(line))
+        .where((element) => element != null)
+        .toList();
+
+    expect(decoded.length, equals(1));
+    expect(decoded[0], isA<MultipartTestTalkerSentence>());
+    final multipart = decoded[0] as MultipartTestTalkerSentence;
+    expect(multipart.total, equals(3));
+    expect(multipart.sequence, equals(1));
+    expect(multipart.values, equals([123, 456, 789, 012, 345, 678]));
+    expect(multipart.complete, isTrue);
+  });
+
   test("returns incomplete sentences at end-of-stream", () async {
     final decoder = NmeaDecoder()
       ..registerTalkerSentence(MultipartTestTalkerSentence.id,

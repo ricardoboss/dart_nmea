@@ -131,43 +131,9 @@ class NmeaDecoder extends StreamTransformerBase<String, NmeaSentence> {
   Stream<NmeaSentence> bind(Stream<String> stream) async* {
     await for (var line in stream) {
       var sentence = decode(line);
-      sentence ??= onUnknownSentence?.call(line);
-
-      if (sentence == null || (onlyAllowValid && !sentence.valid)) {
-        continue;
+      if (sentence != null) {
+        yield sentence;
       }
-
-      if (sentence is MultipartSentence) {
-        final existingIndex =
-            _incompleteSentences.indexWhere(sentence.belongsTo);
-        if (existingIndex < 0) {
-          if (sentence.isLast) {
-            // shortcut if the multipart sentence only consists of one part
-            yield sentence;
-          } else if (sentence.isFirst) {
-            // new multipart sentence
-            _incompleteSentences.add(sentence);
-          } else {
-            // 'mid-sequence' multipart sentence (we didn't get the first one)
-            final fallback = onIncompleteMultipartSentence?.call(sentence);
-            if (fallback != null) {
-              fallback.appendFrom(sentence);
-              _incompleteSentences.add(fallback);
-            }
-          }
-        } else {
-          final existing = _incompleteSentences[existingIndex];
-          existing.appendFrom(sentence);
-          if (sentence.isLast) {
-            yield existing;
-            _incompleteSentences.removeAt(existingIndex);
-          }
-        }
-
-        continue;
-      }
-
-      yield sentence;
     }
 
     for (var incomplete in _incompleteSentences) {
@@ -182,17 +148,55 @@ class NmeaDecoder extends StreamTransformerBase<String, NmeaSentence> {
   /// You can handle unknown sentences by checking if the result of this method
   /// is `null` and then invoking the appropriate handler.
   NmeaSentence? decode(String line) {
+    NmeaSentence? sentence;
+
     if (line.length > 1 && line[1] == nmeaProprietaryDenominator) {
-      return decodeProprietary(line);
+      sentence = decodeProprietary(line);
+    } else if (line.length > 5 && line[5] == nmeaQueryDenominator) {
+      sentence = decodeQuery(line);
+    } else {
+      sentence = decodeTalker(line) ??
+          decodeCustomChecksum(line) ??
+          decodeCustom(line);
     }
 
-    if (line.length > 5 && line[5] == nmeaQueryDenominator) {
-      return decodeQuery(line);
+    sentence ??= onUnknownSentence?.call(line);
+
+    if (sentence == null || (onlyAllowValid && !sentence.valid)) {
+      return null;
     }
 
-    return decodeTalker(line) ??
-        decodeCustomChecksum(line) ??
-        decodeCustom(line);
+    if (sentence is MultipartSentence) {
+      final existingIndex =
+      _incompleteSentences.indexWhere(sentence.belongsTo);
+      if (existingIndex < 0) {
+        if (sentence.isLast) {
+          // shortcut if the multipart sentence only consists of one part
+          return sentence;
+        } else if (sentence.isFirst) {
+          // new multipart sentence
+          _incompleteSentences.add(sentence);
+        } else {
+          // 'mid-sequence' multipart sentence (we didn't get the first one)
+          final fallback = onIncompleteMultipartSentence?.call(sentence);
+          if (fallback != null) {
+            fallback.appendFrom(sentence);
+            _incompleteSentences.add(fallback);
+          }
+        }
+      } else {
+        final existing = _incompleteSentences[existingIndex];
+        existing.appendFrom(sentence);
+        if (sentence.isLast) {
+          _incompleteSentences.removeAt(existingIndex);
+          return existing;
+        }
+      }
+
+      return null;
+    }
+
+    return sentence;
   }
 
   /// Tries to decode the given line as a custom sentence.
