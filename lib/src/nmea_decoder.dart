@@ -167,8 +167,7 @@ class NmeaDecoder extends StreamTransformerBase<String, NmeaSentence> {
     }
 
     if (sentence is MultipartSentence) {
-      final existingIndex =
-      _incompleteSentences.indexWhere(sentence.belongsTo);
+      final existingIndex = _incompleteSentences.indexWhere(sentence.belongsTo);
       if (existingIndex < 0) {
         if (sentence.isLast) {
           // shortcut if the multipart sentence only consists of one part
