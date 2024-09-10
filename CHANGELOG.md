@@ -1,6 +1,11 @@
 Changelog
 =========
 
+Unreleased
+----------
+
+* (internal) Small changes to the README
+
 Version 3.3.1
 ----------
 

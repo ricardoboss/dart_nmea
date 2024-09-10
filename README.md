@@ -5,7 +5,7 @@
 ![Pub Popularity](https://img.shields.io/pub/popularity/nmea)
 [![Pipeline](https://github.com/ricardoboss/dart_nmea/actions/workflows/dart.yml/badge.svg)](https://github.com/ricardoboss/dart_nmea/actions/workflows/dart.yml)
 
-# ![dart_nmea Logo](https://github.com/ricardoboss/dart_nmea/blob/main/images/logo_32.png) nmea
+# ![dart_nmea Logo](https://raw.githubusercontent.com/ricardoboss/dart_nmea/main/images/logo_32.png) nmea
 
 An extensible NMEA0183 parser.
 
