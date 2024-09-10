@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 3.3.0
+-------------
+
+* Bumped SDK constraint to >=3.0.0 <4.0.0
+* (internal) stricter linting rules
+* Fixed docs
+* `CustomChecksumSentence` now only evaluates checksums if `validateChecksums` is `true` (default)
+
 Version 3.2.0
 -------------
 
