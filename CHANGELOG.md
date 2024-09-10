@@ -1,6 +1,11 @@
 Changelog
 =========
 
+Unreleased
+----------
+
+* (internal) Formatting fixes
+
 Version 3.3.0
 -------------
 
