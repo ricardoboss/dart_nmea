@@ -1,4 +1,4 @@
-[![Pipeline](https://github.com/ricardoboss/dart_nmea/actions/workflows/pipeline.yml/badge.svg)](https://github.com/ricardoboss/dart_nmea/actions/workflows/pipeline.yml)
+[![Pipeline](https://github.com/ricardoboss/dart_nmea/actions/workflows/dart.yml/badge.svg)](https://github.com/ricardoboss/dart_nmea/actions/workflows/dart.yml)
 
 # ![dart_nmea Logo](https://github.com/ricardoboss/dart_nmea/blob/main/images/logo_32.png) nmea
 
