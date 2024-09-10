@@ -17,7 +17,8 @@ typedef CustomSentenceFactory = CustomSentence Function(String line);
 /// A function to create a [CustomChecksumSentence] from a raw string and an
 /// identifier.
 typedef CustomChecksumSentenceFactory = CustomChecksumSentence Function(
-    String line);
+  String line,
+);
 
 /// A function to create a [ProprietarySentence] from a raw string and a
 /// manufacturer id.
@@ -29,7 +30,8 @@ typedef TalkerSentenceFactory = TalkerSentence Function(String line);
 /// A fallback function to create a [ProprietarySentence] from a raw string.
 /// May return `null` if no conversion is available.
 typedef OptionalProprietarySentenceFactory = ProprietarySentence? Function(
-    String line);
+  String line,
+);
 
 /// A fallback function to create a [TalkerSentence] from a raw string. May
 /// return `null` if no conversion is available.
@@ -42,7 +44,8 @@ typedef OptionalNmeaSentenceFactory = NmeaSentence? Function(String line);
 /// A handler for multipart sequences that no 'first' part exists for.
 /// Can return a multipart sentence that then serves as the 'first' sentence.
 typedef OnIncompleteMultipartSentence = MultipartSentence? Function(
-    MultipartSentence<dynamic> sentence);
+  MultipartSentence<dynamic> sentence,
+);
 
 /// A [StreamTransformer] that splits [String] lines into NMEA0183 sentence
 /// objects ([NmeaSentence]).
@@ -51,6 +54,19 @@ typedef OnIncompleteMultipartSentence = MultipartSentence? Function(
 /// this transformer doesn't buffer the input and tries to parse every piece of
 /// data it receives as a complete NMEA sentence.
 class NmeaDecoder extends StreamTransformerBase<String, NmeaSentence> {
+  /// Creates a new [NmeaDecoder] that only streams NMEA0183 sentences.
+  /// You can pass functions to handle unknown sentences for different types.
+  /// As a general callback, [onUnknownSentence] can be used.
+  /// If you only want this stream transformer to pass on valid NMEA0183
+  /// sentences, set [onlyAllowValid] to true.
+  NmeaDecoder({
+    this.onUnknownProprietarySentence,
+    this.onUnknownTalkerSentence,
+    this.onUnknownSentence,
+    this.onIncompleteMultipartSentence,
+    this.onlyAllowValid = false,
+  });
+
   final Map<String, CustomSentenceFactory> _customGenerators = {};
   final Map<String, CustomChecksumSentenceFactory> _customChecksumGenerators =
       {};
@@ -81,19 +97,6 @@ class NmeaDecoder extends StreamTransformerBase<String, NmeaSentence> {
   /// Whether or not this decoder only streams valid NMEA0183 sentences.
   /// Invalid sentences are silently ignored.
   final bool onlyAllowValid;
-
-  /// Creates a new [NmeaDecoder] that only streams NMEA0183 sentences.
-  /// You can pass functions to handle unknown sentences for different types.
-  /// As a general callback, [onUnknownSentence] can be used.
-  /// If you only want this stream transformer to pass on valid NMEA0183
-  /// sentences, set [onlyAllowValid] to true.
-  NmeaDecoder({
-    this.onUnknownProprietarySentence,
-    this.onUnknownTalkerSentence,
-    this.onUnknownSentence,
-    this.onIncompleteMultipartSentence,
-    this.onlyAllowValid = false,
-  });
 
   /// Registers a [CustomSentenceFactory] for a given identifier.
   void registerCustomSentence(
@@ -129,14 +132,14 @@ class NmeaDecoder extends StreamTransformerBase<String, NmeaSentence> {
 
   @override
   Stream<NmeaSentence> bind(Stream<String> stream) async* {
-    await for (var line in stream) {
-      var sentence = decode(line);
+    await for (final line in stream) {
+      final sentence = decode(line);
       if (sentence != null) {
         yield sentence;
       }
     }
 
-    for (var incomplete in _incompleteSentences) {
+    for (final incomplete in _incompleteSentences) {
       yield incomplete;
     }
   }
@@ -184,8 +187,9 @@ class NmeaDecoder extends StreamTransformerBase<String, NmeaSentence> {
           }
         }
       } else {
-        final existing = _incompleteSentences[existingIndex];
-        existing.appendFrom(sentence);
+        final existing = _incompleteSentences[existingIndex]
+          ..appendFrom(sentence);
+
         if (sentence.isLast) {
           _incompleteSentences.removeAt(existingIndex);
           return existing;

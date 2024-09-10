@@ -11,6 +11,14 @@ const nmeaChecksumSeparator = '*';
 /// [TalkerSentence]s and [QuerySentence]s. [ProprietarySentence]s on the other
 /// hand are not required to contain a checksum.
 class ChecksumSentence extends NmeaSentence {
+  /// The [ChecksumSentence] constructor has the same parameters as the parent
+  /// [NmeaSentence] does.
+  ChecksumSentence({
+    required super.type,
+    required super.raw,
+    super.prefix,
+  });
+
   bool? _valid;
 
   /// Whether or not this sentence is a valid NMEA0183 sentence, including a
@@ -33,7 +41,7 @@ class ChecksumSentence extends NmeaSentence {
   /// does not contain a checksum, an empty string is returned.
   String get checksum => hasChecksum
       ? _checksum ??= raw.split(nmeaChecksumSeparator).last
-      : ""; // MAYBE: uppercase the checksum even if it was not uppercase
+      : ''; // MAYBE: uppercase the checksum even if it was not uppercase
 
   String? _actualChecksum;
 
@@ -59,12 +67,4 @@ class ChecksumSentence extends NmeaSentence {
   String get rawWithoutFixtures => _rawWithoutFixtures ??= (hasChecksum
       ? super.rawWithoutFixtures.split(nmeaChecksumSeparator).first
       : super.rawWithoutFixtures); // remove the checksum + separator character
-
-  /// The [ChecksumSentence] constructor has the same parameters as the parent
-  /// [NmeaSentence] does.
-  ChecksumSentence({
-    required super.type,
-    required super.raw,
-    super.prefix,
-  });
 }

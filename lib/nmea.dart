@@ -8,25 +8,25 @@
 /// sentences.
 library nmea;
 
-export 'src/nmea_sentence.dart'
-    show NmeaSentence, nmeaPrefix, nmeaSuffix, nmeaFieldSeparator;
-export 'src/proprietary_sentence.dart'
-    show ProprietarySentence, nmeaProprietaryDenominator, nmeaProprietaryPrefix;
-export 'src/custom_checksum_sentence.dart' show CustomChecksumSentence;
-export 'src/custom_sentence.dart' show CustomSentence;
-export 'src/talker_sentence.dart' show TalkerSentence;
-export 'src/multipart_sentence.dart' show MultipartSentence;
-export 'src/query_sentence.dart' show QuerySentence, nmeaQueryDenominator;
 export 'src/checksum_sentence.dart'
     show ChecksumSentence, nmeaChecksumSeparator;
+export 'src/custom_checksum_sentence.dart' show CustomChecksumSentence;
+export 'src/custom_sentence.dart' show CustomSentence;
+export 'src/multipart_sentence.dart' show MultipartSentence;
 export 'src/nmea_decoder.dart'
     show
-        NmeaDecoder,
         CustomSentenceFactory,
-        ProprietarySentenceFactory,
-        TalkerSentenceFactory,
+        NmeaDecoder,
+        OptionalNmeaSentenceFactory,
         OptionalProprietarySentenceFactory,
         OptionalTalkerSentenceFactory,
-        OptionalNmeaSentenceFactory;
+        ProprietarySentenceFactory,
+        TalkerSentenceFactory;
+export 'src/nmea_sentence.dart'
+    show NmeaSentence, nmeaFieldSeparator, nmeaPrefix, nmeaSuffix;
 export 'src/nmea_sentence_type.dart' show NmeaSentenceType;
 export 'src/nmea_utils.dart' show NmeaUtils;
+export 'src/proprietary_sentence.dart'
+    show ProprietarySentence, nmeaProprietaryDenominator, nmeaProprietaryPrefix;
+export 'src/query_sentence.dart' show QuerySentence, nmeaQueryDenominator;
+export 'src/talker_sentence.dart' show TalkerSentence;

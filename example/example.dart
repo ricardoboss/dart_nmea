@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, unreachable_from_main
 
 import 'dart:convert';
 
@@ -6,20 +6,25 @@ import 'package:nmea/nmea.dart' as nmea;
 
 void main() {
   Stream.fromIterable([
-    "\$--MSG,A,1,0,0,0,0*29",
-    "\$PACME{'test':true}",
-    "\$--NOT,REGISTERED,SENTENCE,TEST*1C",
-    "\$CST,first,second",
+    r'$--MSG,A,1,0,0,0,0*29',
+    r"$PACME{'test':true}",
+    r'$--NOT,REGISTERED,SENTENCE,TEST*1C',
+    r'$CST,first,second',
   ])
-      .transform(nmea.NmeaDecoder(onlyAllowValid: true)
-        ..registerTalkerSentence(
-            MsgSentence.id, (line) => MsgSentence(raw: line))
-        ..registerProprietarySentence(AcmeProprietarySentence.id,
-            (line) => AcmeProprietarySentence(raw: line))
-        ..registerCustomChecksumSentence(MyCustomSentence.id,
-            (line) => MyCustomSentence(raw: line, validateChecksums: false)))
-      .listen((nmea.NmeaSentence sentence) {
-    print("${sentence.raw} is a valid ${sentence.type.name} sentence");
+      .transform(
+    nmea.NmeaDecoder(onlyAllowValid: true)
+      ..registerTalkerSentence(MsgSentence.id, (line) => MsgSentence(raw: line))
+      ..registerProprietarySentence(
+        AcmeProprietarySentence.id,
+        (line) => AcmeProprietarySentence(raw: line),
+      )
+      ..registerCustomChecksumSentence(
+        MyCustomSentence.id,
+        (line) => MyCustomSentence(raw: line, validateChecksums: false),
+      ),
+  )
+      .listen((sentence) {
+    print('${sentence.raw} is a valid ${sentence.type.name} sentence');
   });
 
   // Output:
@@ -29,9 +34,9 @@ void main() {
 }
 
 class MsgSentence extends nmea.TalkerSentence {
-  static const String id = "MSG";
-
   MsgSentence({required super.raw});
+
+  static const String id = 'MSG';
 
   // You can access the fields in this talker sentence by their index
   String get field1 => fields[1];
@@ -40,9 +45,9 @@ class MsgSentence extends nmea.TalkerSentence {
 }
 
 class AcmeProprietarySentence extends nmea.ProprietarySentence {
-  static const String id = "ACME";
 
   AcmeProprietarySentence({required super.raw}) : super(manufacturer: id);
+  static const String id = 'ACME';
 
   // custom data formatting is allowed in proprietary sentences
   String get json => rawWithoutFixtures;
@@ -56,10 +61,10 @@ class AcmeProprietarySentence extends nmea.ProprietarySentence {
 }
 
 class MyCustomSentence extends nmea.CustomChecksumSentence {
-  static const String id = "CST";
 
   MyCustomSentence({required super.raw, super.validateChecksums = true})
       : super(identifier: id);
+  static const String id = 'CST';
 
   String get first => fields[0];
 

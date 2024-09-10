@@ -1,8 +1,8 @@
-import 'package:nmea/src/proprietary_sentence.dart';
 import 'package:nmea/src/nmea_sentence_type.dart';
+import 'package:nmea/src/proprietary_sentence.dart';
 
 /// Each NMEA0183 sentence starts with a "$" character.
-const nmeaPrefix = '\$';
+const nmeaPrefix = r'$';
 
 /// Each NMEA0183 sentence ends with windows-style newline characters.
 const nmeaSuffix = '\r\n';
@@ -16,6 +16,16 @@ const nmeaFieldSeparator = ',';
 /// structure than standard NMEA0183 sentences. If you are implementing a
 /// proprietary sentence, you can use the [ProprietarySentence] class.
 class NmeaSentence {
+  /// Creates a new NmeaSentence.
+  ///
+  /// The [type] and the [raw] string source must be supplied. A [prefix] is
+  /// optional and the default is the [nmeaPrefix] ("$").
+  NmeaSentence({
+    required this.type,
+    required this.raw,
+    this.prefix = nmeaPrefix,
+  });
+
   /// The type of this sentence.
   final NmeaSentenceType type;
 
@@ -64,14 +74,4 @@ class NmeaSentence {
       _rawWithoutFixtures ??= raw.substring(prefix.length, raw.length);
 
   // MAYBE: add invalid reason field/getter
-
-  /// Creates a new NmeaSentence.
-  ///
-  /// The [type] and the [raw] string source must be supplied. A [prefix] is
-  /// optional and the default is the [nmeaPrefix] ("$").
-  NmeaSentence({
-    required this.type,
-    required this.raw,
-    this.prefix = nmeaPrefix,
-  });
 }

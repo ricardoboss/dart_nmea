@@ -14,10 +14,6 @@ const nmeaProprietaryPrefix = nmeaPrefix + nmeaProprietaryDenominator;
 /// envelope of an NMEA0183 sentence (begins with '$' and ends with windows-
 /// style newline characters).
 class ProprietarySentence extends NmeaSentence {
-  /// Returns the manufacturer id (i.e. the first field in the sentence,
-  /// excluding the proprietary denominator [nmeaProprietaryDenominator]).
-  final String manufacturer;
-
   /// The manufacturer and the raw input line are needed to decide if this
   /// sentence is valid. The manufacturer is needed to check the prefix in case
   /// the manufacturer doesn't use the default field separator (',') to separate
@@ -27,4 +23,8 @@ class ProprietarySentence extends NmeaSentence {
           type: NmeaSentenceType.proprietary,
           prefix: nmeaProprietaryPrefix + manufacturer,
         );
+
+  /// Returns the manufacturer id (i.e. the first field in the sentence,
+  /// excluding the proprietary denominator [nmeaProprietaryDenominator]).
+  final String manufacturer;
 }
