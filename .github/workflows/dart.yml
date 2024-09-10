@@ -1,31 +1,32 @@
-name: Pipeline
+name: Dart
 
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  schedule:
+    - cron: '0 5 1 * *'
 
 jobs:
   analyze:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: dart-lang/setup-dart@v1.3
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.PUB_CACHE }}
+          key: ${{ runner.os }}-pub
+
+      - name: Install dependencies
+        run: dart pub get --enforce-lockfile
 
       - name: Verify formatting
         run: dart format --output=none --set-exit-if-changed .
-
-      - uses: actions/cache@v3
-        with:
-          path: ${{ env.PUB_CACHE }}
-          key: ${{ runner.os }}-dart-cache-stable
-          restore-keys: |
-            ${{ runner.OS }}-dart-cache-
-
-      - name: Install dependencies
-        run: dart pub get
 
       - name: Analyze project source
         run: dart analyze --fatal-infos
@@ -40,20 +41,20 @@ jobs:
         sdk: [stable, beta, dev]
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: dart-lang/setup-dart@v1.3
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
         with:
           sdk: ${{ matrix.sdk }}
 
       - uses: actions/cache@v3
         with:
           path: ${{ env.PUB_CACHE }}
-          key: ${{ runner.os }}-dart-cache-${{ matrix.sdk }}
+          key: ${{ runner.os }}-pub-${{ matrix.sdk }}
           restore-keys: |
-            ${{ runner.OS }}-dart-cache-
+            ${{ runner.OS }}-pub
 
       - name: Install dependencies
-        run: dart pub get
+        run: dart pub get --enforce-lockfile
 
       - name: Run tests
         run: dart test

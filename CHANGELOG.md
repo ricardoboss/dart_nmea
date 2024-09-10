@@ -7,6 +7,7 @@ Unreleased
 * (internal) Formatting fixes
 * (internal) Added `CODEOWNERS` file
 * (internal) Added Dependabot config
+* (internal) Updated GitHub actions workflow to run on schedule
 
 Version 3.3.0
 -------------
