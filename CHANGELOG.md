@@ -8,6 +8,7 @@ Unreleased
 * (internal) Added `CODEOWNERS` file
 * (internal) Added Dependabot config
 * (internal) Updated GitHub actions workflow to run on schedule
+* (internal) Added GitHub actions workflow for publishing to pub.dev
 
 Version 3.3.0
 -------------
