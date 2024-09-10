@@ -1,9 +1,10 @@
 Changelog
 =========
 
-Unreleased
+Version 3.3.1
 ----------
 
+* No changes to the library, just a patch bump
 * (internal) Formatting fixes
 * (internal) Added `CODEOWNERS` file
 * (internal) Added Dependabot config
