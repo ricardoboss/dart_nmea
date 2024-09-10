@@ -45,8 +45,8 @@ class MsgSentence extends nmea.TalkerSentence {
 }
 
 class AcmeProprietarySentence extends nmea.ProprietarySentence {
-
   AcmeProprietarySentence({required super.raw}) : super(manufacturer: id);
+
   static const String id = 'ACME';
 
   // custom data formatting is allowed in proprietary sentences
@@ -61,9 +61,9 @@ class AcmeProprietarySentence extends nmea.ProprietarySentence {
 }
 
 class MyCustomSentence extends nmea.CustomChecksumSentence {
-
   MyCustomSentence({required super.raw, super.validateChecksums = true})
       : super(identifier: id);
+
   static const String id = 'CST';
 
   String get first => fields[0];
