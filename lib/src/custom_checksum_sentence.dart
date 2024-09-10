@@ -22,5 +22,5 @@ class CustomChecksumSentence extends ChecksumSentence {
   final bool validateChecksums;
 
   @override
-  bool get hasValidChecksum => super.hasValidChecksum || !validateChecksums;
+  bool get hasValidChecksum => !validateChecksums || super.hasValidChecksum;
 }
