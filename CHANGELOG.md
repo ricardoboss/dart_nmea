@@ -5,6 +5,7 @@ Unreleased
 ----------
 
 * (internal) Formatting fixes
+* (internal) Added `CODEOWNERS` file
 
 Version 3.3.0
 -------------
