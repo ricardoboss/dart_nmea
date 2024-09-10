@@ -6,6 +6,7 @@ Unreleased
 
 * (internal) Formatting fixes
 * (internal) Added `CODEOWNERS` file
+* (internal) Added Dependabot config
 
 Version 3.3.0
 -------------
