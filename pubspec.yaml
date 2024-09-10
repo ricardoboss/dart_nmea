@@ -4,7 +4,7 @@ homepage: https://github.com/ricardoboss/dart_nmea
 repository: https://github.com/ricardoboss/dart_nmea
 issue_tracker: https://github.com/ricardoboss/dart_nmea/issues
 
-version: 3.3.1
+version: 3.3.2
 
 environment:
   sdk: ">=3.0.0 <4.0.0"

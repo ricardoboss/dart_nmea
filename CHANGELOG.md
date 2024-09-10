@@ -1,9 +1,10 @@
 Changelog
 =========
 
-Unreleased
+Version 3.3.2
 ----------
 
+* No changes to the library, just a patch bump
 * (internal) Small changes to the README
 
 Version 3.3.1
