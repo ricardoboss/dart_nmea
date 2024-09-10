@@ -21,10 +21,10 @@ class AbcSentence extends TalkerSentence {
 
 // 2. register your sentences
 final decoder = NmeaDecoder()
-  ..registerTalkerSentence("ABC", (line) => AbcSentence(raw: line));
+  ..registerTalkerSentence('ABC', (line) => AbcSentence(raw: line));
 
 // 3. decode a line
-final sentence = decoder.decode("\$--ABC,123456789*5D");
+final sentence = decoder.decode(r'$--ABC,123456789*5D');
 
 // 4. consume your sentences
 print(sentence.valid); // true
@@ -38,7 +38,7 @@ if (sentence is AbcSentence) {
 You can also use it as a StreamTransformer for a stream of Strings:
 
 ```dart
-final stream = Stream.fromIterable(["\$--ABC,123456789*5D", "\$--DEF,987654321*5D"]);
+final stream = Stream.fromIterable([r'$--ABC,123456789*5D', r'$--DEF,987654321*5D']);
 final transformed = stream.transform(decoder);
 transformed.listen((sentence) {
   print(sentence.valid); // true
