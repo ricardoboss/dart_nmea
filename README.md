@@ -1,3 +1,8 @@
+![GitHub License](https://img.shields.io/github/license/ricardoboss/dart_nmea)
+![Pub Version](https://img.shields.io/pub/v/nmea)
+![Pub Points](https://img.shields.io/pub/points/nmea)
+![Pub Likes](https://img.shields.io/pub/likes/nmea)
+![Pub Popularity](https://img.shields.io/pub/popularity/nmea)
 [![Pipeline](https://github.com/ricardoboss/dart_nmea/actions/workflows/dart.yml/badge.svg)](https://github.com/ricardoboss/dart_nmea/actions/workflows/dart.yml)
 
 # ![dart_nmea Logo](https://github.com/ricardoboss/dart_nmea/blob/main/images/logo_32.png) nmea
