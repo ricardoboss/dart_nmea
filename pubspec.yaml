@@ -12,5 +12,5 @@ environment:
 dependencies: {}
 
 dev_dependencies:
-  test: ^1.25.8
-  strict: ^2.1.0
+  test: any
+  strict: any
