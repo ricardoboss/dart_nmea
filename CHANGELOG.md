@@ -1,6 +1,13 @@
 Changelog
 =========
 
+Version 3.3.3
+----------
+
+* No changes to the library, just a patch bump
+* (internal) Updated lockfile to latest versions
+* (internal) Formatting
+
 Version 3.3.2
 ----------
 
