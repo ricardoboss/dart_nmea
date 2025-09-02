@@ -13,11 +13,7 @@ const nmeaChecksumSeparator = '*';
 class ChecksumSentence extends NmeaSentence {
   /// The [ChecksumSentence] constructor has the same parameters as the parent
   /// [NmeaSentence] does.
-  ChecksumSentence({
-    required super.type,
-    required super.raw,
-    super.prefix,
-  });
+  ChecksumSentence({required super.type, required super.raw, super.prefix});
 
   bool? _valid;
 

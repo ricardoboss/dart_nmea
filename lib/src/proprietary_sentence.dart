@@ -19,10 +19,10 @@ class ProprietarySentence extends NmeaSentence {
   /// the manufacturer doesn't use the default field separator (',') to separate
   /// the fields.
   ProprietarySentence({required this.manufacturer, required super.raw})
-      : super(
-          type: NmeaSentenceType.proprietary,
-          prefix: nmeaProprietaryPrefix + manufacturer,
-        );
+    : super(
+        type: NmeaSentenceType.proprietary,
+        prefix: nmeaProprietaryPrefix + manufacturer,
+      );
 
   /// Returns the manufacturer id (i.e. the first field in the sentence,
   /// excluding the proprietary denominator [nmeaProprietaryDenominator]).

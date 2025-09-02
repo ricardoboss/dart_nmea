@@ -72,23 +72,25 @@ void main() {
     expect(decoded.valid, isTrue);
   });
 
-  test('decodes invalid custom sentences although checksum checks are skipped',
-      () {
-    final decoder = NmeaDecoder()
-      ..registerCustomChecksumSentence(
-        TestCustomSentence.id,
-        (line) => TestCustomSentence(raw: line, validateChecksums: false),
-      );
-    final decoded = decoder.decodeCustomChecksum(r'$CST,123345*56');
+  test(
+    'decodes invalid custom sentences although checksum checks are skipped',
+    () {
+      final decoder = NmeaDecoder()
+        ..registerCustomChecksumSentence(
+          TestCustomSentence.id,
+          (line) => TestCustomSentence(raw: line, validateChecksums: false),
+        );
+      final decoded = decoder.decodeCustomChecksum(r'$CST,123345*56');
 
-    expect(decoded, isNotNull);
-    expect(decoded!.fields, equals(['CST', '123345']));
-    expect(decoded.rawWithoutFixtures, 'CST,123345');
-    expect(decoded.hasChecksum, isTrue);
-    expect(decoded.checksum, equals('56'));
-    expect(decoded.actualChecksum, equals('6A'));
-    expect(decoded.valid, isFalse);
-  });
+      expect(decoded, isNotNull);
+      expect(decoded!.fields, equals(['CST', '123345']));
+      expect(decoded.rawWithoutFixtures, 'CST,123345');
+      expect(decoded.hasChecksum, isTrue);
+      expect(decoded.checksum, equals('56'));
+      expect(decoded.actualChecksum, equals('6A'));
+      expect(decoded.valid, isFalse);
+    },
+  );
 
   test('decodes query sentences', () {
     final decoder = NmeaDecoder();
@@ -118,7 +120,7 @@ class TestTalkerSentence extends TalkerSentence {
 
 class TestCustomSentence extends CustomChecksumSentence {
   TestCustomSentence({required super.raw, super.validateChecksums = true})
-      : super(identifier: id);
+    : super(identifier: id);
 
   static const String id = 'CST';
 

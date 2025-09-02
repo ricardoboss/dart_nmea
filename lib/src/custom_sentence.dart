@@ -8,7 +8,7 @@ class CustomSentence extends NmeaSentence {
   /// [NmeaSentence] constructor, except the [type] parameter.
   /// The [type] is always [NmeaSentenceType.custom].
   CustomSentence({required this.identifier, required super.raw, super.prefix})
-      : super(type: NmeaSentenceType.custom);
+    : super(type: NmeaSentenceType.custom);
 
   /// Returns the identifier used to identify this sentence type
   final String identifier;

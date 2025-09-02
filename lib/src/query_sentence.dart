@@ -10,7 +10,7 @@ class QuerySentence extends NmeaSentence {
   /// except that it specifies the type of this sentence as
   /// [NmeaSentenceType.query].
   QuerySentence({required super.raw, super.prefix})
-      : super(type: NmeaSentenceType.query);
+    : super(type: NmeaSentenceType.query);
 
   /// Returns the first two characters in the first field as per NMEA0183
   /// standard. This represents the queried party.
