@@ -6,7 +6,7 @@ class TalkerSentence extends ChecksumSentence {
   /// [ChecksumSentence], except that it specifies the type of this
   /// `NmeaSentence` as [NmeaSentenceType.talker].
   TalkerSentence({required super.raw, super.prefix})
-    : super(type: NmeaSentenceType.talker);
+      : super(type: NmeaSentenceType.talker);
 
   /// By default, returns the first two characters in the first field as per
   /// NMEA0183 standard.

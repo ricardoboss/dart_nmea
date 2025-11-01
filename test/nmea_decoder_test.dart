@@ -120,7 +120,7 @@ class TestTalkerSentence extends TalkerSentence {
 
 class TestCustomSentence extends CustomChecksumSentence {
   TestCustomSentence({required super.raw, super.validateChecksums = true})
-    : super(identifier: id);
+      : super(identifier: id);
 
   static const String id = 'CST';
 

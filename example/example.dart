@@ -6,29 +6,29 @@ import 'package:nmea/nmea.dart' as nmea;
 
 void main() {
   Stream.fromIterable([
-        r'$--MSG,A,1,0,0,0,0*29',
-        r"$PACME{'test':true}",
-        r'$--NOT,REGISTERED,SENTENCE,TEST*1C',
-        r'$CST,first,second',
-      ])
+    r'$--MSG,A,1,0,0,0,0*29',
+    r"$PACME{'test':true}",
+    r'$--NOT,REGISTERED,SENTENCE,TEST*1C',
+    r'$CST,first,second',
+  ])
       .transform(
-        nmea.NmeaDecoder(onlyAllowValid: true)
-          ..registerTalkerSentence(
-            MsgSentence.id,
-            (line) => MsgSentence(raw: line),
-          )
-          ..registerProprietarySentence(
-            AcmeProprietarySentence.id,
-            (line) => AcmeProprietarySentence(raw: line),
-          )
-          ..registerCustomChecksumSentence(
-            MyCustomSentence.id,
-            (line) => MyCustomSentence(raw: line, validateChecksums: false),
-          ),
+    nmea.NmeaDecoder(onlyAllowValid: true)
+      ..registerTalkerSentence(
+        MsgSentence.id,
+        (line) => MsgSentence(raw: line),
       )
+      ..registerProprietarySentence(
+        AcmeProprietarySentence.id,
+        (line) => AcmeProprietarySentence(raw: line),
+      )
+      ..registerCustomChecksumSentence(
+        MyCustomSentence.id,
+        (line) => MyCustomSentence(raw: line, validateChecksums: false),
+      ),
+  )
       .listen((sentence) {
-        print('${sentence.raw} is a valid ${sentence.type.name} sentence');
-      });
+    print('${sentence.raw} is a valid ${sentence.type.name} sentence');
+  });
 
   // Output:
   // $--MSG,A,1,0,0,0,0*29 is a valid talker sentence
@@ -65,7 +65,7 @@ class AcmeProprietarySentence extends nmea.ProprietarySentence {
 
 class MyCustomSentence extends nmea.CustomChecksumSentence {
   MyCustomSentence({required super.raw, super.validateChecksums = true})
-    : super(identifier: id);
+      : super(identifier: id);
 
   static const String id = 'CST';
 

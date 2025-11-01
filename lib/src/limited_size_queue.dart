@@ -3,16 +3,16 @@ import 'dart:math';
 
 class LimitedSizeQueue<T> with ListMixin<T> {
   LimitedSizeQueue({required this.capacity, int? dropCount})
-    : assert(capacity > 0, 'The capacity must be a positive integer'),
-      assert(
-        dropCount == null || dropCount < capacity,
-        'dropCount must be smaller than the capacity',
-      ),
-      assert(
-        dropCount == null || dropCount > 0,
-        'dropCount must be a positive integer',
-      ),
-      dropCount = dropCount ?? max(capacity ~/ 10, 1);
+      : assert(capacity > 0, 'The capacity must be a positive integer'),
+        assert(
+          dropCount == null || dropCount < capacity,
+          'dropCount must be smaller than the capacity',
+        ),
+        assert(
+          dropCount == null || dropCount > 0,
+          'dropCount must be a positive integer',
+        ),
+        dropCount = dropCount ?? max(capacity ~/ 10, 1);
 
   final int capacity;
   final int dropCount;
