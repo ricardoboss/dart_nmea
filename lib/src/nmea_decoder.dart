@@ -17,7 +17,8 @@ typedef CustomSentenceFactory = CustomSentence Function(String line);
 /// A function to create a [CustomChecksumSentence] from a raw string and an
 /// identifier.
 typedef CustomChecksumSentenceFactory = CustomChecksumSentence Function(
-    String line);
+  String line,
+);
 
 /// A function to create a [ProprietarySentence] from a raw string and a
 /// manufacturer id.
@@ -29,7 +30,8 @@ typedef TalkerSentenceFactory = TalkerSentence Function(String line);
 /// A fallback function to create a [ProprietarySentence] from a raw string.
 /// May return `null` if no conversion is available.
 typedef OptionalProprietarySentenceFactory = ProprietarySentence? Function(
-    String line);
+  String line,
+);
 
 /// A fallback function to create a [TalkerSentence] from a raw string. May
 /// return `null` if no conversion is available.
@@ -42,7 +44,8 @@ typedef OptionalNmeaSentenceFactory = NmeaSentence? Function(String line);
 /// A handler for multipart sequences that no 'first' part exists for.
 /// Can return a multipart sentence that then serves as the 'first' sentence.
 typedef OnIncompleteMultipartSentence = MultipartSentence? Function(
-    MultipartSentence<dynamic> sentence);
+  MultipartSentence<dynamic> sentence,
+);
 
 /// A [StreamTransformer] that splits [String] lines into NMEA0183 sentence
 /// objects ([NmeaSentence]).
